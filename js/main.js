@@ -2,9 +2,9 @@
 const title = document.getElementById('title')
 const otherTitle = document.getElementById('other-title');
 const shirtColorDiv = document.getElementById('colors-js-puns');
-const shirtColorSelector = document.getElementById('color');
+const colorSelector = document.getElementById('color');
 const shirtDesign = document.getElementById('design');
-const colorOptions = shirtColorSelector.querySelectorAll('option');
+const colorOptions = colorSelector.querySelectorAll('option');
 
 
 otherTitle.style.display = "none";
@@ -21,7 +21,8 @@ const showOtherTitle = () => {
 }
 
 
-//Changes the displayed color options based on the selected design option
+//Stores the shirt themes description in a variable to be referenced.
+//Shows color selector if a theme is chosen.
 const changeColorOptions = () => {
     let shirtTheme;
     if (design.value === 'Select Theme') {
@@ -30,15 +31,20 @@ const changeColorOptions = () => {
       shirtTheme = 'JS Puns';
       shirtColorDiv.style.display = "block";
     } else if (design.value === 'heart js') {
-      shirtTheme = 'I &#9829; JS'
+      shirtTheme = 'I ♥ JS'
       shirtColorDiv.style.display = "block";
     }
 
-    for (i = 0; i < colorOptions.length; i += 1) {
-      if option[i].textContent.includes(shirtTheme) {
-        option[i].style.display = "block";
+//Matches shirt theme with colors associated with that theme.
+//Changes the displayed color options based on the selected theme.
+    colorOptions.forEach(colorOption => {
+      if (colorOption.textContent.includes(shirtTheme)) {
+        colorOption.style.display = "block";
       } else {
-        option[i].style.display = "none";
+        colorOption.style.display = "none";
       }
-    }
+    });
+
+
+
 }
