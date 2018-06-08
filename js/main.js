@@ -5,6 +5,10 @@ const shirtColorDiv = document.getElementById('colors-js-puns');
 const colorSelector = document.getElementById('color');
 const shirtDesign = document.getElementById('design');
 const colorOptions = colorSelector.querySelectorAll('option');
+const jsFrame = document.getElementById('jsFrame');
+const jsLibs = document.getElementById('jsLibs');
+const express = document.getElementById('express');
+const node = document.getElementById('node');
 
 
 otherTitle.style.display = "none";
@@ -47,4 +51,39 @@ const changeColorOptions = () => {
         colorOption.style.display = "none";
       }
     });
+}
+
+//Disables conflicting activities when choosing workshops
+const disableConflicts = () => {
+  if (jsFrame.checked === true) {
+    express.disabled = true;
+    express.parentElement.style.color = "slategrey";
+  } else {
+    express.disabled = false;
+    express.parentElement.style.color = "#000"
+  }
+
+  if (express.checked === true) {
+    jsFrame.disabled = true;
+    jsFrame.parentElement.style.color = "slategrey";
+  } else {
+    jsFrame.disabled = false;
+    jsFrame.parentElement.style.color = "#000"
+  }
+
+  if (jsLibs.checked === true) {
+    node.disabled = true;
+    node.parentElement.style.color = "slategrey";
+  } else {
+    node.disabled = false;
+    node.parentElement.style.color = "#000"
+  }
+
+  if (node.checked === true) {
+    jsLibs.disabled = true;
+    jsLibs.parentElement.style.color = "slategrey";
+  } else {
+    jsLibs.disabled = false;
+    jsLibs.parentElement.style.color = "#000"
+  }
 }
