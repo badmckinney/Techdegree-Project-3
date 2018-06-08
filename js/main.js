@@ -9,6 +9,13 @@ const jsFrame = document.getElementById('jsFrame');
 const jsLibs = document.getElementById('jsLibs');
 const express = document.getElementById('express');
 const node = document.getElementById('node');
+const total = document.getElementById('total');
+const activities = document.getElementsByClassName('activities')[0];
+const paymentMethod = document.getElementById('payment');
+const credit = document.getElementById('credit-card');
+const payPal = document.getElementById('payPal');
+const bitCoin = document.getElementById('bitCoin');
+let totalCost = 0;
 
 
 otherTitle.style.display = "none";
@@ -42,6 +49,7 @@ const changeColorOptions = () => {
       color.value = "tomato";
     }
 
+
 //Matches shirt theme with colors associated with that theme.
 //Changes the displayed color options based on the selected theme.
     colorOptions.forEach(colorOption => {
@@ -53,7 +61,9 @@ const changeColorOptions = () => {
     });
 }
 
+
 //Disables conflicting activities when choosing workshops
+//Styles disabled checkboxes accordingly
 const disableConflicts = () => {
   if (jsFrame.checked === true) {
     express.disabled = true;
@@ -85,5 +95,41 @@ const disableConflicts = () => {
   } else {
     jsLibs.disabled = false;
     jsLibs.parentElement.style.color = "#000"
+  }
+}
+
+
+//Extracts the price from a specified individual activity
+const individualCostOf = (selectedActivity) => {
+  return parseInt(selectedActivity.substring(selectedActivity.indexOf('$') + 1));
+}
+
+
+//Pulls the cost from each activity selected and adds it to total const.
+//Displays total cost at the bottom of the fieldset.
+activities.addEventListener('click', (e) => {
+  let selectedActivity = e.target.parentNode.textContent;
+  if (e.target.checked == true) {
+    totalCost += individualCostOf(selectedActivity);
+  } else if (e.target.checked == false) {
+    totalCost -= individualCostOf(selectedActivity);
+  }
+
+  total.textContent = "Total Cost: $" + totalCost;
+});
+
+
+//
+const showPaymentInfo = () => {
+  credit.className = "is-hidden";
+  payPal.className = "is-hidden";
+  bitCoin.className = "is-hidden";
+
+  if (paymentMethod.value == "credit card") {
+    credit.className = "";
+  } else if (paymentMethod.value == "paypal") {
+    payPal.className = "";
+  } else if (paymentMethod.value == "bitcoin") {
+    bitCoin.className = "";
   }
 }
