@@ -160,7 +160,7 @@ const showPaymentInfo = () => {
 /*   FORM VALIDATION   */
 /*=====================*/
 
-//Validates name, email, credit card number, zip code, and cvv number
+//Validates name, email, activity registration, credit card number, zip code, and cvv number
 const validate = () => {
   //Name field
   if (nameField.value == "") {
@@ -184,4 +184,6 @@ const validate = () => {
     mailField.className = "";
     mailError.className = "is-hidden";
   }
+
+  //
 }
