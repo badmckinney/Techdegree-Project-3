@@ -23,6 +23,7 @@ const mailError = document.getElementById('mailError');
 const creditError = document.getElementById('creditError');
 const zipError = document.getElementById('zipError');
 const cvvError = document.getElementById('cvvError');
+const form = document.querySelector('form');
 let totalCost = 0;
 let valid = false;
 
@@ -160,9 +161,11 @@ const showPaymentInfo = () => {
 /*   FORM VALIDATION   */
 /*=====================*/
 
-//Validates name, email, activity registration, credit card number, zip code, and cvv number
-const validate = () => {
-  //Name field
+//Validates Name field
+nameField.placeholder = "Enter your name";
+nameField.required = true;
+nameField.autofocus = true;
+nameField.addEventListener ("blur", (event) => {
   if (nameField.value == "") {
     valid = false;
     nameField.className = "invalid";
@@ -173,8 +176,13 @@ const validate = () => {
     nameField.className = "";
     nameError.className = "is-hidden";
   }
+});
 
-  //Email field
+//Validates Email field
+mailField.placeholder = "email@example.com";
+mailField.pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$";
+mailField.required = true;
+mailField.addEventListener ("keyup", (event) => {
   if (mailField.validity.valid == false) {
     valid = false;
     mailField.className = "invalid";
@@ -184,6 +192,4 @@ const validate = () => {
     mailField.className = "";
     mailError.className = "is-hidden";
   }
-
-  //
-}
+});

@@ -22,11 +22,11 @@
 
         <label for="name">Name:</label>
         <h4 id="nameError" class="is-hidden"><h4>
-        <input type="text" id="name" name="user_name" onkeyup="validate()" onfocusout="validate()" required autofocus>
+        <input type="text" id="name" name="user_name">
 
         <label for="mail">Email:</label>
         <h4 id="mailError" class="is-hidden"><h4>
-        <input type="email" id="mail" name="user_email" placeholder="email@example.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" oninvalid="validate()" onkeyup="validate()" required>
+        <input type="email" id="mail" name="user_email">
 
         <label for="title">Job Role</label>
         <select id="title" name="user_title" onchange="showOtherTitle()">
