@@ -15,12 +15,24 @@ const paymentMethod = document.getElementById('payment');
 const credit = document.getElementById('credit-card');
 const payPal = document.getElementById('payPal');
 const bitCoin = document.getElementById('bitCoin');
+const nameField = document.getElementById('name');
+const mailField = document.getElementById('mail');
+const submitButton = document.getElementById('submit');
+const nameError = document.getElementById('nameError');
+const mailError = document.getElementById('mailError');
+const creditError = document.getElementById('creditError');
+const zipError = document.getElementById('zipError');
+const cvvError = document.getElementById('cvvError');
 let totalCost = 0;
+let valid = false;
 
 
 otherTitle.style.display = "none";
 shirtColorDiv.style.display = "none";
 
+/*=============*/
+/*  JOB ROLE   */
+/*=============*/
 
 //Shows or hides the "other title" input field based on selected option
 const showOtherTitle = () => {
@@ -31,6 +43,9 @@ const showOtherTitle = () => {
   }
 }
 
+/*==================*/
+/*   T-SHIRT INFO   */
+/*==================*/
 
 //Creates a variable and stores the shirt themes description in that variable to be referenced.
 //Displays color selector on page if a theme is chosen.
@@ -61,6 +76,9 @@ const changeColorOptions = () => {
     });
 }
 
+/*=============================*/
+/*   REGISTER FOR ACTIVITIES   */
+/*=============================*/
 
 //Disables conflicting activities when choosing workshops
 //Styles disabled checkboxes accordingly
@@ -118,8 +136,12 @@ activities.addEventListener('click', (e) => {
   total.textContent = "Total Cost: $" + totalCost;
 });
 
+/*==================*/
+/*   PAYMENT INFO   */
+/*==================*/
 
-//
+//Resets all payment information to hidden
+//Displays the information for the selected payment method
 const showPaymentInfo = () => {
   credit.className = "is-hidden";
   payPal.className = "is-hidden";
@@ -131,5 +153,35 @@ const showPaymentInfo = () => {
     payPal.className = "";
   } else if (paymentMethod.value == "bitcoin") {
     bitCoin.className = "";
+  }
+}
+
+/*=====================*/
+/*   FORM VALIDATION   */
+/*=====================*/
+
+//Validates name, email, credit card number, zip code, and cvv number
+const validate = () => {
+  //Name field
+  if (nameField.value == "") {
+    valid = false;
+    nameField.className = "invalid";
+    nameError.className = "error"
+    nameError.textContent = "Please enter a name";
+  } else if (nameField.value !== "") {
+    valid = true;
+    nameField.className = "";
+    nameError.className = "is-hidden";
+  }
+
+  //Email field
+  if (mailField.validity.valid == false) {
+    valid = false;
+    mailField.className = "invalid";
+    mailError.className = "error";
+    mailError.textContent = "Please enter a valid email address";
+  } else if (mailField.validity.valid == true) {
+    mailField.className = "";
+    mailError.className = "is-hidden";
   }
 }

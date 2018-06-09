@@ -135,6 +135,17 @@ button:hover {
 	margin-top: 1.25em;
 }
 
+.error {
+  color: #cc0000;
+  display: inline;
+  margin-bottom: .5em;
+  font: 1em/1.5;
+}
+
+.invalid {
+  border-color: #cc0000;
+}
+
 /* =================================
   Helper Classes
 ==================================== */

@@ -21,10 +21,12 @@
         <legend>Basic Info</legend>
 
         <label for="name">Name:</label>
-        <input type="text" id="name" name="user_name" autofocus>
+        <h4 id="nameError" class="is-hidden"><h4>
+        <input type="text" id="name" name="user_name" onkeyup="validate()" onfocusout="validate()" required autofocus>
 
         <label for="mail">Email:</label>
-        <input type="email" id="mail" name="user_email">
+        <h4 id="mailError" class="is-hidden"><h4>
+        <input type="email" id="mail" name="user_email" placeholder="email@example.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" oninvalid="validate()" onkeyup="validate()" required>
 
         <label for="title">Job Role</label>
         <select id="title" name="user_title" onchange="showOtherTitle()">
@@ -75,6 +77,7 @@
 
       <fieldset class="activities">
         <legend>Register for Activities</legend>
+        <h4 id="activityError" class="is-hidden"><h4>
         <label><input type="checkbox" name="all"> Main Conference — $200</label>
         <label><input type="checkbox" id="jsFrame" onclick="disableConflicts()" name="js-frameworks"> JavaScript Frameworks Workshop — Tuesday 9am-12pm, $100</label>
         <label><input type="checkbox" id="jsLibs" onclick="disableConflicts()" name="js-libs"> JavaScript Libraries Workshop — Tuesday 1pm-4pm, $100</label>
@@ -99,16 +102,19 @@
 
           <div class="col-6 col">
             <label for="cc-num">Card Number:</label>
+            <h4 id="creditError" class="is-hidden"><h4>
         	  <input id="cc-num" name="user_cc-num" type="text">
           </div>
 
           <div class="col-3 col">
             <label for="zip">Zip Code:</label>
+            <h4 id="zipError" class="is-hidden"><h4>
             <input id="zip" name="user_zip" type="text">
           </div>
 
           <div class="col-3 col">
             <label for="cvv">CVV:</label>
+            <h4 id="cvvError" class="is-hidden"><h4>
             <input id="cvv" name="user_cvv" type="text">
           </div>
 
@@ -147,7 +153,7 @@
 
       </fieldset>
 
-      <button type="submit">Register</button>
+      <button id="submit" type="submit">Register</button>
 
     </form>
 
