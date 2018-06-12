@@ -5,12 +5,14 @@ const shirtColorDiv = document.getElementById('colors-js-puns');
 const colorSelector = document.getElementById('color');
 const shirtDesign = document.getElementById('design');
 const colorOptions = colorSelector.querySelectorAll('option');
+const mainConf = document.getElementById('mainConf');
 const jsFrame = document.getElementById('jsFrame');
 const jsLibs = document.getElementById('jsLibs');
 const express = document.getElementById('express');
 const node = document.getElementById('node');
 const total = document.getElementById('total');
 const activities = document.getElementsByClassName('activities')[0];
+const activityOptions = document.querySelectorAll('input[type="checkbox"]');
 const paymentMethod = document.getElementById('payment');
 const credit = document.getElementById('credit-card');
 const payPal = document.getElementById('payPal');
@@ -18,31 +20,50 @@ const bitCoin = document.getElementById('bitCoin');
 const nameField = document.getElementById('name');
 const mailField = document.getElementById('mail');
 const submitButton = document.getElementById('submit');
-const nameError = document.getElementById('nameError');
-const mailError = document.getElementById('mailError');
-const creditError = document.getElementById('creditError');
-const zipError = document.getElementById('zipError');
-const cvvError = document.getElementById('cvvError');
 const form = document.querySelector('form');
 let totalCost = 0;
 let valid = false;
-
+let checked = false;
 
 otherTitle.style.display = "none";
 shirtColorDiv.style.display = "none";
+
+
+/*=============*/
+/*  JOB ROLE   */
+/*=============*/
+
+//Creates error messages
+//Appends the error messages to the page and hides them by default
+const nameError = document.createElement('h4');
+const mailError = document.createElement('h4');
+const activityError = document.createElement('h4');
+const creditError = document.createElement('h4');
+const zipError = document.createElement('h4');
+const cvvError = document.createElement('h4');
+
+nameError.className = "is-hidden";
+nameField.parentElement.insertBefore(nameError, nameField);
+
+mailError.className = "is-hidden";
+mailField.parentElement.insertBefore(mailError, mailField);
+
+activityError.className = "is-hidden";
+mainConf.parentElement.insertBefore(activityError, mainConf);
+activityError.textContent = "Please choose at least one activity";
 
 /*=============*/
 /*  JOB ROLE   */
 /*=============*/
 
 //Shows or hides the "other title" input field based on selected option
-const showOtherTitle = () => {
+title.addEventListener ("change", (event) => {
   if (title.value === "other") {
     otherTitle.style.display = "block";
   } else {
     otherTitle.style.display = "none";
   }
-}
+});
 
 /*==================*/
 /*   T-SHIRT INFO   */
@@ -165,13 +186,14 @@ const showPaymentInfo = () => {
 nameField.placeholder = "Enter your name";
 nameField.required = true;
 nameField.autofocus = true;
-nameField.addEventListener ("blur", (event) => {
-  if (nameField.value == "") {
+nameField.pattern = "^[a-zA-Z ]{2,30}$";
+nameField.addEventListener ("keyup", () => {
+  if (nameField.validity.valid == false) {
     valid = false;
     nameField.className = "invalid";
     nameError.className = "error"
-    nameError.textContent = "Please enter a name";
-  } else if (nameField.value !== "") {
+    nameError.textContent = "Please enter a valid name";
+  } else if (nameField.validity.valid == true) {
     valid = true;
     nameField.className = "";
     nameError.className = "is-hidden";
@@ -191,5 +213,33 @@ mailField.addEventListener ("keyup", (event) => {
   } else if (mailField.validity.valid == true) {
     mailField.className = "";
     mailError.className = "is-hidden";
+  }
+});
+
+//Validates activity registration by making sure at least one option is checked.
+/*submitButton.addEventListener('click', () => {
+  let activityOptions = document.querySelectorAll('input[type="checkbox"]:checked');
+  if (activityOptions.length == 0) {
+    submitButton.preventDefault();
+    activityError.className = "error";
+    activityError.textContent = "Please choose at least one activity";
+  } else if (activityOptions.length > 0) {
+    activityError.className = "is-hidden";
+  }
+});*/
+
+form.addEventListener('submit', (event) => {
+  activityOptions.forEach (option => {
+    if (option.checked) checked = true;
+  });
+  return checked;
+
+  if (checked == true) {
+    activityError.className = "is-hidden";
+    event.preventDefault();
+    activityError.className = "error";
+  } else {
+    form.submit.preventDefault();
+    activityError.className = "error";
   }
 });

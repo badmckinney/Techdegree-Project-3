@@ -88,6 +88,7 @@ input {
 	background: #c1deeb;
 	border: 2px solid #c1deeb;
 	outline: none;
+  margin-top: .5em;
 }
 
 input:focus {
@@ -137,8 +138,8 @@ button:hover {
 
 .error {
   color: #cc0000;
-  display: inline;
-  margin-bottom: .5em;
+  display: block;
+  margin-bottom: 1em;
   font: 1em/1.5;
 }
 
