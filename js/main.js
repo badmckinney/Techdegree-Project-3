@@ -29,9 +29,9 @@ otherTitle.style.display = "none";
 shirtColorDiv.style.display = "none";
 
 
-/*=============*/
-/*  JOB ROLE   */
-/*=============*/
+/*===================*/
+/*  ERROR MESSAGES   */
+/*===================*/
 
 //Creates error messages
 //Appends the error messages to the page and hides them by default
