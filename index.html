@@ -82,13 +82,12 @@
         <label><input type="checkbox" name="node"> Node.js Workshop — Tuesday 1pm-4pm, $100</label>
         <label><input type="checkbox" name="build-tools"> Build tools Workshop — Wednesday 9am-12pm, $100</label>
         <label><input type="checkbox" name="npm"> npm Workshop — Wednesday 1pm-4pm, $100</label>
-        <h3 id="total"></h3>
       </fieldset>
       <fieldset>
         <legend>Payment Info</legend>
 
         <label for="payment">I'm going to pay with:</label>
-        <select id="payment" name="user_payment" onchange="showPaymentInfo()">
+        <select id="payment" name="user_payment">
           <option value="select_method" disabled>Select Payment Method</option>
           <option value="credit card">Credit Card</option>
           <option value="paypal">PayPal</option>
@@ -99,19 +98,16 @@
 
           <div class="col-6 col">
             <label for="cc-num">Card Number:</label>
-            <h4 id="creditError" class="is-hidden"><h4>
         	  <input id="cc-num" name="user_cc-num" type="text">
           </div>
 
           <div class="col-3 col">
             <label for="zip">Zip Code:</label>
-            <h4 id="zipError" class="is-hidden"><h4>
             <input id="zip" name="user_zip" type="text">
           </div>
 
           <div class="col-3 col">
             <label for="cvv">CVV:</label>
-            <h4 id="cvvError" class="is-hidden"><h4>
             <input id="cvv" name="user_cvv" type="text">
           </div>
 
@@ -140,11 +136,11 @@
           </select>
         </div>
 
-        <div id="payPal" class="is-hidden">
+        <div id="payPal">
         	<p>If you selected the PayPal option we'll take you to Paypal's site to set up your billing information, when you click “Register” below.</p>
         </div>
 
-        <div id="bitCoin" class="is-hidden">
+        <div id="bitCoin">
         	<p>If you selected the Bitcoin option we'll take you to the Coinbase site to set up your billing information. Due to the nature of exchanging Bitcoin, all Bitcoin transactions will be final.</p>
         </div>
 

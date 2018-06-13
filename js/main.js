@@ -5,7 +5,6 @@ const shirtColorDiv = document.getElementById('colors-js-puns');
 const colorSelector = document.getElementById('color');
 const shirtDesign = document.getElementById('design');
 const colorOptions = colorSelector.querySelectorAll('option');
-const total = document.getElementById('total');
 const activities = document.getElementsByClassName('activities')[0];
 const activityOptions = document.querySelectorAll('input[type="checkbox"]');
 const paymentMethod = document.getElementById('payment');
@@ -14,15 +13,18 @@ const payPal = document.getElementById('payPal');
 const bitCoin = document.getElementById('bitCoin');
 const nameField = document.getElementById('name');
 const mailField = document.getElementById('mail');
+const ccNumField = document.getElementById('cc-num');
+const zipField = document.getElementById('zip');
+const cvvField = document.getElementById('cvv');
 const submitButton = document.getElementById('submit');
 const form = document.querySelector('form');
 let totalCost = 0;
-let valid = false;
-
 
 otherTitle.style.display = "none";
 shirtColorDiv.style.display = "none";
 
+const total = document.createElement('h3');
+activities.appendChild(total);
 
 /*===================*/
 /*  ERROR MESSAGES   */
@@ -33,9 +35,6 @@ shirtColorDiv.style.display = "none";
 const nameError = document.createElement('h4');
 const mailError = document.createElement('h4');
 const activityError = document.createElement('h4');
-const creditError = document.createElement('h4');
-const zipError = document.createElement('h4');
-const cvvError = document.createElement('h4');
 
 nameError.className = "is-hidden";
 nameField.parentElement.insertBefore(nameError, nameField);
@@ -46,6 +45,7 @@ mailField.parentElement.insertBefore(mailError, mailField);
 activityError.className = "is-hidden";
 activityOptions[0].parentElement.insertBefore(activityError, activityOptions[0]);
 activityError.textContent = "Please choose at least one activity";
+
 
 /*=============*/
 /*  JOB ROLE   */
@@ -164,19 +164,36 @@ activities.addEventListener('click', (e) => {
 
 //Resets all payment information to hidden
 //Displays the information for the selected payment method
-const showPaymentInfo = () => {
+//Automatically validates payment method if paypal or bitcoin is selected
+//Checks credit card info if that is selected payment method and validates payment info accordingly
+let validPayment = false;
+payPal.className = "is-hidden";
+bitCoin.className = "is-hidden";
+paymentMethod.addEventListener('change', () => {
   credit.className = "is-hidden";
   payPal.className = "is-hidden";
   bitCoin.className = "is-hidden";
 
   if (paymentMethod.value == "credit card") {
     credit.className = "";
+    validPayment = false;
+    ccNumField.required = true;
+    zipField.required = true;
+    cvvField.required = true;
   } else if (paymentMethod.value == "paypal") {
     payPal.className = "";
+    validPayment = true;
+    ccNumField.required = false;
+    zipField.required = false;
+    cvvField.required = false;
   } else if (paymentMethod.value == "bitcoin") {
     bitCoin.className = "";
+    validPayment = true;
+    ccNumField.required = false;
+    zipField.required = false;
+    cvvField.required = false;
   }
-}
+});
 
 /*=====================*/
 /*   FORM VALIDATION   */
@@ -230,27 +247,95 @@ const checked = () => {
 }
 
 
-//Validates CREDIT CARD INFO
+//Validates CC INFO
+//Sets pattern attribute so only digits can be used, and a specific number of digits
+ccNumField.pattern = "^([0-9]{13,16})$"
+zipField.pattern = "^([0-9]{5})$"
+cvvField.pattern = "^([0-9]{3})$"
 
+//Validates CC number as the user types and includes helpful error messages based on error
+const ccNumLabel = ccNumField.previousElementSibling;
+ccNumField.required = true;
+ccNumField.addEventListener ('keyup', (event) => {
+  if (paymentMethod.value == "credit card" && ccNumField.value == "") {
+    ccNumField.className = "invalid";
+    ccNumLabel.style.color = "#cc0000";
+    ccNumLabel.textContent = "Please enter a Credit Card number";
+  } else if (paymentMethod.value == "credit card" && /^\d+$/.test(ccNumField.value) == false) {
+    ccNumField.className = "invalid";
+    ccNumLabel.style.color = "#cc0000";
+    ccNumLabel.textContent = "Please only use numbers";
+  } else if (paymentMethod.value == "credit card" && ccNumField.value.length < 13) {
+    ccNumField.className = "invalid";
+    ccNumLabel.style.color = "#cc0000";
+    ccNumLabel.textContent = "Credit Card number must be at least 13 digits";
+  } else if (paymentMethod.value == "credit card" && ccNumField.value.length > 16) {
+    ccNumField.className = "invalid";
+    ccNumLabel.style.color = "#cc0000";
+    ccNumLabel.textContent = "Credit Card number cannot be more than 16 digits";
+  } else {
+    ccNumField.className = "";
+    ccNumLabel.style.color = "#000"
+    ccNumLabel.textContent = "Card Number:"
+  }
+  if (paymentMethod.value == "credit card" && ccNumField.validity.valid == true && zipField.validity.valid == true && cvvField.validity.valid == true) {
+    validPayment = true;
+  } else {
+    validPayment = false;
+  }
+});
 
+//Validates Zip Code
+const zipLabel = zipField.previousElementSibling;
+zipField.required = true;
+zipField.addEventListener('keyup', (event) => {
+  if (zipField.validity.valid == false) {
+    zipField.className = "invalid";
+    zipLabel.style.color = "#cc0000"
+  } else {
+    zipField.className = "";
+    zipLabel.style.color = "#000";
+  }
+  if (paymentMethod.value == "credit card" && ccNumField.validity.valid == true && zipField.validity.valid == true && cvvField.validity.valid == true) {
+    validPayment = true;
+  } else {
+    validPayment = false;
+  }
+});
 
+//Validates CVV numbers
+const cvvLabel = cvvField.previousElementSibling;
+cvvField.required = true;
+cvvField.addEventListener('keyup', (event) => {
+  if (cvvField.validity.valid == false) {
+    cvvField.className = "invalid";
+    cvvLabel.style.color = "#cc0000"
+  } else {
+    cvvField.className = "";
+    cvvLabel.style.color = "#000";
+  }
+  if (paymentMethod.value == "credit card" && ccNumField.validity.valid == true && zipField.validity.valid == true && cvvField.validity.valid == true) {
+    validPayment = true;
+  } else {
+    validPayment = false;
+  }
+});
 
-
-
-
-/*form.addEventListener('submit', (event) => {
-  let checked;
-
-  activityOptions.forEach (option => {
-    if (option.checked) checked = true;
-  });
-
-
-  if (checked === true) {
-    activityError.className = "is-hidden";
-    activityError.className = "error";
+//Validates the entire form as a whole
+//If all input fields are valid, the user may submit the form
+//Otherwise, they are not able to submit the form until they rectify the error
+let valid = false;
+form.addEventListener('submit', (event) => {
+  if (validName == true && validMail == true && checked() == true && validPayment == true) {
+    valid = true;
   } else {
     event.preventDefault();
-    activityError.className = "error";
   }
-});*/
+});
+
+submitButton.addEventListener('click', (event) => {
+  if (checked() == false) {
+    activityError.className = "error";
+    activityOptions[0].focus();
+  }
+});
