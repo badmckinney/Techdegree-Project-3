@@ -5,11 +5,6 @@ const shirtColorDiv = document.getElementById('colors-js-puns');
 const colorSelector = document.getElementById('color');
 const shirtDesign = document.getElementById('design');
 const colorOptions = colorSelector.querySelectorAll('option');
-const mainConf = document.getElementById('mainConf');
-const jsFrame = document.getElementById('jsFrame');
-const jsLibs = document.getElementById('jsLibs');
-const express = document.getElementById('express');
-const node = document.getElementById('node');
 const total = document.getElementById('total');
 const activities = document.getElementsByClassName('activities')[0];
 const activityOptions = document.querySelectorAll('input[type="checkbox"]');
@@ -23,7 +18,7 @@ const submitButton = document.getElementById('submit');
 const form = document.querySelector('form');
 let totalCost = 0;
 let valid = false;
-let checked = false;
+
 
 otherTitle.style.display = "none";
 shirtColorDiv.style.display = "none";
@@ -49,7 +44,7 @@ mailError.className = "is-hidden";
 mailField.parentElement.insertBefore(mailError, mailField);
 
 activityError.className = "is-hidden";
-mainConf.parentElement.insertBefore(activityError, mainConf);
+activityOptions[0].parentElement.insertBefore(activityError, activityOptions[0]);
 activityError.textContent = "Please choose at least one activity";
 
 /*=============*/
@@ -72,20 +67,19 @@ title.addEventListener ("change", (event) => {
 //Creates a variable and stores the shirt themes description in that variable to be referenced.
 //Displays color selector on page if a theme is chosen.
 //Sets default color option to first available color in the list.
-const changeColorOptions = () => {
-    let shirtTheme;
-    if (design.value === 'Select Theme') {
-      shirtColorDiv.style.display = "none";
-    } else if (design.value === 'js puns') {
-      shirtTheme = 'JS Puns';
-      shirtColorDiv.style.display = "block";
-      color.value = "cornflowerblue";
-    } else if (design.value === 'heart js') {
-      shirtTheme = 'I ♥ JS'
-      shirtColorDiv.style.display = "block";
-      color.value = "tomato";
-    }
-
+shirtDesign.addEventListener ('change', (event) => {
+  let shirtTheme;
+  if (design.value === 'Select Theme') {
+    shirtColorDiv.style.display = "none";
+  } else if (design.value === 'js puns') {
+    shirtTheme = 'JS Puns';
+    shirtColorDiv.style.display = "block";
+    color.value = "cornflowerblue";
+  } else if (design.value === 'heart js') {
+    shirtTheme = 'I ♥ JS'
+    shirtColorDiv.style.display = "block";
+    color.value = "tomato";
+  }
 
 //Matches shirt theme with colors associated with that theme.
 //Changes the displayed color options based on the selected theme.
@@ -96,48 +90,54 @@ const changeColorOptions = () => {
         colorOption.style.display = "none";
       }
     });
-}
-
+});
 /*=============================*/
 /*   REGISTER FOR ACTIVITIES   */
 /*=============================*/
 
 //Disables conflicting activities when choosing workshops
 //Styles disabled checkboxes accordingly
-const disableConflicts = () => {
-  if (jsFrame.checked === true) {
-    express.disabled = true;
-    express.parentElement.style.color = "slategrey";
+activities.addEventListener ('change', (event) => {
+  if (activityOptions[1].checked) {
+    activityOptions[3].disabled = true;
+    activityOptions[3].parentElement.style.color = "slategrey";
   } else {
-    express.disabled = false;
-    express.parentElement.style.color = "#000"
+    activityOptions[3].disabled = false;
+    activityOptions[3].parentElement.style.color = "#000"
   }
 
-  if (express.checked === true) {
-    jsFrame.disabled = true;
-    jsFrame.parentElement.style.color = "slategrey";
+  if (activityOptions[3].checked) {
+    activityOptions[1].disabled = true;
+    activityOptions[1].parentElement.style.color = "slategrey";
   } else {
-    jsFrame.disabled = false;
-    jsFrame.parentElement.style.color = "#000"
+    activityOptions[1].disabled = false;
+    activityOptions[1].parentElement.style.color = "#000"
   }
 
-  if (jsLibs.checked === true) {
-    node.disabled = true;
-    node.parentElement.style.color = "slategrey";
+  if (activityOptions[2].checked) {
+    activityOptions[4].disabled = true;
+    activityOptions[4].parentElement.style.color = "slategrey";
   } else {
-    node.disabled = false;
-    node.parentElement.style.color = "#000"
+    activityOptions[4].disabled = false;
+    activityOptions[4].parentElement.style.color = "#000"
   }
 
-  if (node.checked === true) {
-    jsLibs.disabled = true;
-    jsLibs.parentElement.style.color = "slategrey";
+  if (activityOptions[4].checked) {
+    activityOptions[2].disabled = true;
+    activityOptions[2].parentElement.style.color = "slategrey";
   } else {
-    jsLibs.disabled = false;
-    jsLibs.parentElement.style.color = "#000"
+    activityOptions[2].disabled = false;
+    activityOptions[2].parentElement.style.color = "#000"
   }
-}
 
+  //Reference the checked() function to validate activity field
+  //Displays or hides error message accordingly
+  if (checked() === false) {
+    activityError.className = "error";
+  } else {
+    activityError.className = "is-hidden";
+  }
+});
 
 //Extracts the price from a specified individual activity
 const individualCostOf = (selectedActivity) => {
@@ -182,64 +182,75 @@ const showPaymentInfo = () => {
 /*   FORM VALIDATION   */
 /*=====================*/
 
-//Validates Name field
+//Validates NAME field
+let validName;
 nameField.placeholder = "Enter your name";
 nameField.required = true;
 nameField.autofocus = true;
 nameField.pattern = "^[a-zA-Z ]{2,30}$";
 nameField.addEventListener ("keyup", () => {
   if (nameField.validity.valid == false) {
-    valid = false;
+    validName = false;
     nameField.className = "invalid";
     nameError.className = "error"
     nameError.textContent = "Please enter a valid name";
   } else if (nameField.validity.valid == true) {
-    valid = true;
+    validName = true;
     nameField.className = "";
     nameError.className = "is-hidden";
   }
 });
 
-//Validates Email field
+//Validates EMAIL field
+let validMail;
 mailField.placeholder = "email@example.com";
 mailField.pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$";
 mailField.required = true;
 mailField.addEventListener ("keyup", (event) => {
   if (mailField.validity.valid == false) {
-    valid = false;
+    validMail = false;
     mailField.className = "invalid";
     mailError.className = "error";
     mailError.textContent = "Please enter a valid email address";
   } else if (mailField.validity.valid == true) {
     mailField.className = "";
     mailError.className = "is-hidden";
+    validMail = true;
   }
 });
 
-//Validates activity registration by making sure at least one option is checked.
-/*submitButton.addEventListener('click', () => {
-  let activityOptions = document.querySelectorAll('input[type="checkbox"]:checked');
-  if (activityOptions.length == 0) {
-    submitButton.preventDefault();
-    activityError.className = "error";
-    activityError.textContent = "Please choose at least one activity";
-  } else if (activityOptions.length > 0) {
-    activityError.className = "is-hidden";
-  }
-});*/
+//Validates ACTIVITY field
+//Creates a function to check if one of the activity options is is checked.
+const checked = () => {
+  let isChecked = false;
+  activityOptions.forEach(option => {
+    if (option.checked) isChecked = true;
+  });
+  return isChecked;
+}
 
-form.addEventListener('submit', (event) => {
+
+//Validates CREDIT CARD INFO
+
+
+
+
+
+
+
+/*form.addEventListener('submit', (event) => {
+  let checked;
+
   activityOptions.forEach (option => {
     if (option.checked) checked = true;
   });
-  return checked;
 
-  if (checked == true) {
+
+  if (checked === true) {
     activityError.className = "is-hidden";
-    event.preventDefault();
     activityError.className = "error";
   } else {
-    form.submit.preventDefault();
+    event.preventDefault();
     activityError.className = "error";
   }
-});
+});*/

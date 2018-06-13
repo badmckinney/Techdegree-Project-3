@@ -53,7 +53,7 @@
 
         <div>
           <label for="design">Design:</label>
-          <select id="design" name="user_design" onchange="changeColorOptions()">
+          <select id="design" name="user_design">
             <option>Select Theme</option>
             <option value="js puns">Theme - JS Puns</option>
             <option value="heart js">Theme - I &#9829; JS</option>
@@ -75,11 +75,11 @@
 
       <fieldset class="activities">
         <legend>Register for Activities</legend>
-        <label><input type="checkbox" id="mainConf" name="all"> Main Conference — $200</label>
-        <label><input type="checkbox" id="jsFrame" onclick="disableConflicts()" name="js-frameworks"> JavaScript Frameworks Workshop — Tuesday 9am-12pm, $100</label>
-        <label><input type="checkbox" id="jsLibs" onclick="disableConflicts()" name="js-libs"> JavaScript Libraries Workshop — Tuesday 1pm-4pm, $100</label>
-        <label><input type="checkbox" id="express" onclick="disableConflicts()" name="express"> Express Workshop — Tuesday 9am-12pm, $100</label>
-        <label><input type="checkbox" id="node" onclick="disableConflicts()" name="node"> Node.js Workshop — Tuesday 1pm-4pm, $100</label>
+        <label><input type="checkbox" name="all"> Main Conference — $200</label>
+        <label><input type="checkbox" name="js-frameworks"> JavaScript Frameworks Workshop — Tuesday 9am-12pm, $100</label>
+        <label><input type="checkbox" name="js-libs"> JavaScript Libraries Workshop — Tuesday 1pm-4pm, $100</label>
+        <label><input type="checkbox" name="express"> Express Workshop — Tuesday 9am-12pm, $100</label>
+        <label><input type="checkbox" name="node"> Node.js Workshop — Tuesday 1pm-4pm, $100</label>
         <label><input type="checkbox" name="build-tools"> Build tools Workshop — Wednesday 9am-12pm, $100</label>
         <label><input type="checkbox" name="npm"> npm Workshop — Wednesday 1pm-4pm, $100</label>
         <h3 id="total"></h3>
